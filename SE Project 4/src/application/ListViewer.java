@@ -8,8 +8,11 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
@@ -24,16 +27,18 @@ import javafx.stage.Stage;
  * as just a list rather than a NumberList or
  * StringList as much as possible
  */
-public class ListViewer extends Stage implements PropertyChangeListener {
+public class ListViewer extends Stage implements PropertyChangeListener, EventHandler<ActionEvent> {
 	
 	private GridPane root;
 	private String listTitle;
 	private TextArea ta;
+	private TextField tf;
 	private ArrayList<Button> buttons;
 	private ArrayList<MenuItem> menuOptions;
+	private ArrayList<MenuItem> bigboi;
+	private static int row = 1;
 	
-	public ListViewer(String listTitle) {
-		this.listTitle = listTitle;
+	public ListViewer() {
 	}
 	
 	/**
@@ -41,31 +46,81 @@ public class ListViewer extends Stage implements PropertyChangeListener {
 	 * @param newOptions ArrayList of MenuItems to add to menuOptions
 	 */
 	public void addMenuOptions(ArrayList<MenuItem> newOptions) {
+		this.menuOptions = new ArrayList<MenuItem>();
+		this.bigboi = new ArrayList<MenuItem>();
 		for (int i = 0; i < newOptions.size(); i++) {
-			menuOptions.add(newOptions.get(i));
+			if (i == 1) {
+				bigboi.add(newOptions.get(i));
+			} else {
+				menuOptions.add(newOptions.get(i));
+			}
 		}
 	}
 	
 	public void start(Stage primaryStage) {
-		root = new GridPane();
-		root.setPadding(new Insets(5, 5, 5, 5));
-		Scene scene = new Scene(root, 400, 400);
-		
-		for (int i = 0; i < menuOptions.size(); i++) {
-			final int yeet = i;
-			Button button = new Button(menuOptions.get(i).toString());
-			button.setOnAction(e -> menuOptions.get(yeet).execute());
-			root.add(button, 0, i + 1);
+		try {
+			root = new GridPane();
+			root.setPadding(new Insets(5, 5, 5, 5));
+			Scene scene = new Scene(root, 400, 400);
+			ta = new TextArea();
+//			ta.setDisable(true);
+			root.add(ta, 0, 0);
+			for (int i = 0; i < menuOptions.size(); i++) {
+				final int yeet = i;
+				Button button = new Button(menuOptions.get(i).toString());
+				System.out.println("am i here");
+				button.setOnAction(this);
+				if (!menuOptions.get(yeet).instructions().isEmpty()) {
+					tf = new TextField();
+					root.add(tf, 0, row + 1);
+					button.setOnAction(e -> 
+					{
+						try {
+							if (tf.getText().isEmpty()) {
+								throw new Exception("Please enter something");
+							}
+							menuOptions.get(yeet).enterElement(tf.getText());
+							menuOptions.get(yeet).execute();
+							ta.setText(bigboi.get(0).execute());
+						} catch (Exception e1) {
+							Alert alert = new Alert(Alert.AlertType.ERROR);
+							alert.setTitle("Error");
+							alert.setContentText(e1.getMessage());
+							alert.showAndWait();
+						}
+					});
+					root.add(button, 0, row);
+					row += 1;
+				} else {
+					button.setOnAction(e -> {
+						menuOptions.get(yeet).execute();
+						System.out.println("in the right spot");
+						ta.setText(bigboi.get(0).execute());
+					});
+					root.add(button, 0, row);
+				}
+				row += 1;
+			}
+			
+			primaryStage.setTitle(listTitle);
+			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+			primaryStage.setScene(scene);
+			primaryStage.show();
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
-		
-		primaryStage.setTitle(listTitle);
-		scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
-		primaryStage.setScene(scene);
-		primaryStage.show();
 	}
 	
 	@Override
 	public void propertyChange(PropertyChangeEvent event) {
-		ta.setText("yeet");
+		System.out.println("REEE");
+	}
+
+	@Override
+	public void handle(ActionEvent arg0) {
+		for (int i = 0; i < bigboi.size(); i++) {
+			System.out.println("hahah");
+			ta.setText(bigboi.get(i).execute());
+		}
 	}
 }

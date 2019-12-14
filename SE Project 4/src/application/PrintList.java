@@ -27,7 +27,7 @@ public class PrintList<T> implements MenuItem {
 	 */
 	@Override
 	public String execute() {
-
+		System.out.println("here");
 		return "List is {" + itemList.printList() + "}";
 	}
 

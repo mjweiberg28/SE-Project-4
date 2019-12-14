@@ -1,40 +1,45 @@
 package application;
-	
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
+
 import java.util.ArrayList;
 
 import javafx.application.Application;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Font;
 
-
-public class Main extends Application implements PropertyChangeListener, EventHandler<ActionEvent> {
-
+/**
+ * Main class, acting as the driver for the GUI and project as a whole
+ * @author Micah Weiberg
+ * @version 12-11-19
+ *
+ */
+public class Main extends Application {
+	
+	private StringList stringList;
+	private NumberList numberList;
 	private Label info;
 	private TextField tf;
-	private AddNewList stringList;
-	private AddNewList numberList;
 	private Button addSL;
 	private Button addNL;
-	private ListViewer lv;
-	private GridPane root;
-
+	
 	@Override
 	public void start(Stage primaryStage) {
+		stringList = new StringList(new ArrayList<String>(), "words", "String");
+		numberList = new NumberList(new ArrayList<Number>(), "numbers", "Number");
+		ListViewer lvString = new ListViewer();
+		ListViewer lvNumber = new ListViewer();
+		
+		stringList.addPropertyChangeListener(lvString);
+		numberList.addPropertyChangeListener(lvNumber);
+		
 		try {
-			
-			root = new GridPane();
+			GridPane root = new GridPane();
 			root.setPadding(new Insets(5, 5, 5, 5));
 			Scene scene = new Scene(root, 400, 400);
 			
@@ -54,9 +59,15 @@ public class Main extends Application implements PropertyChangeListener, EventHa
 			root.add(tf, 0, 1);
 			
 			addSL = new Button("Add String List");
-			addSL.setOnMouseClicked(e -> {
+			addSL.setOnAction(e -> {
 				try {
-					generateWindow("String", "title");
+//					if (tf.getText().isEmpty()) {
+//						throw new Exception("New list must have a name");
+//					}
+					lvString.setTitle(tf.getText());
+					AddNewList yooo = new AddNewList(lvString, "String");
+					yooo.execute();
+					lvString.start(new Stage());
 				} catch (Exception e1) {
 					Alert alert = new Alert(Alert.AlertType.ERROR);
 					alert.setTitle("Error");
@@ -66,10 +77,15 @@ public class Main extends Application implements PropertyChangeListener, EventHa
 			});
 			root.add(addSL, 0, 2);
 			addNL = new Button("Add Number List");
-			addNL.setOnAction(this);
 			addNL.setOnMouseClicked(e -> {
 				try {
-					generateWindow("Number", "title");
+//					if (tf.getText().isEmpty()) {
+//						throw new Exception("New list must have a name");
+//					}
+					lvNumber.setTitle(tf.getText());
+					AddNewList yooo = new AddNewList(lvNumber, "Number");
+					yooo.execute();
+					lvNumber.start(new Stage());
 				} catch (Exception e1) {
 					Alert alert = new Alert(Alert.AlertType.ERROR);
 					alert.setTitle("Error");
@@ -78,9 +94,6 @@ public class Main extends Application implements PropertyChangeListener, EventHa
 				}
 			});
 			root.add(addNL, 0, 3);
-
-			// TODO: set contents of tf to ListViewer title when button is clicked to add new list
-			// TODO: When add new list button clicked, create ListViewer(type) as separate window
 			
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			primaryStage.setScene(scene);
@@ -91,29 +104,7 @@ public class Main extends Application implements PropertyChangeListener, EventHa
 		}
 	}
 	
-	private ListViewer generateWindow(String listType, String listTitle) {
-		ListViewer lv = new ListViewer(listTitle);
-		AddNewList nL = new AddNewList(lv, listType);
-		//lv.handle(event);
-		return lv;
-	}
-	
 	public static void main(String[] args) {
 		launch(args);
-	}
-	
-	public void handle(ActionEvent event) {
-		if (event.getSource() == addSL) {
-			generateWindow("String", "title");
-		} else if (event.getSource() == addNL) {
-			generateWindow("Number", "title");
-		}
-	}
-
-	@Override
-	public void propertyChange(PropertyChangeEvent evt) {
-		if (evt.getPropertyName() == "newList") {
-			
-		}
 	}
 }

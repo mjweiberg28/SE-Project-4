@@ -46,9 +46,11 @@ public class StringList extends ItemList<String> {
 	 */
 	@Override
 	public void addToList(String element) {
-		ArrayList<String> oldValue = aL;
+		int oldValue = aL.size();
 		aL.add(element);
-		this.pcs.firePropertyChange("addElement", oldValue, aL);
+		int newValue = aL.size();
+		System.out.println("old: " + oldValue + " new: " + newValue);
+		this.pcs.firePropertyChange("addElement", oldValue, newValue);
 	}
 
 	/**
@@ -58,7 +60,6 @@ public class StringList extends ItemList<String> {
 	 */
 	@Override
 	public String printList() {
-		
 		String listString = ""; // initialize variable
 
 		for (int i = 0; i < aL.size(); i++) {
@@ -70,8 +71,6 @@ public class StringList extends ItemList<String> {
 		if (!aL.isEmpty()) {
 			listString = listString.substring(0, listString.length() - 2);
 		}
-		
-		this.pcs.firePropertyChange("printList", null, null);
 		return listString;
 	}
 
@@ -81,9 +80,10 @@ public class StringList extends ItemList<String> {
 	 */
 	@Override
 	public void clearList() {
-		ArrayList<String> oldValue = aL;
+		int oldValue = aL.size();
 		aL.clear();
-		this.pcs.firePropertyChange("clearList", oldValue, aL);
+		int newValue = aL.size();
+		this.pcs.firePropertyChange("clearList", oldValue, newValue);
 	}
 	
 	/**
@@ -91,7 +91,11 @@ public class StringList extends ItemList<String> {
 	 * @param aL ArrayList of Strings
 	 */
 	public void sortList() {
-		ArrayList<String> oldValue = aL;
+		boolean oldValue = false;
+		ArrayList<String> copyList = new ArrayList<String>(aL);
+		for (int i = 0; i < aL.size(); i++) {
+			System.out.println(aL.get(i));
+		}
 		Collections.sort(aL);
 		this.pcs.firePropertyChange("sortList", oldValue, aL);
 	}

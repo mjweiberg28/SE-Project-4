@@ -5,19 +5,16 @@ import java.util.ArrayList;
 /**
  * Concrete Command: Add New List
  * @author Micah Weiberg
- * @version 12-7-19
+ * @version 12-11-19
  * Project 4
  */
 public class AddNewList implements MenuItem {
 
-	/* ConsoleMenu object to add new list to */
+	/* ListViewer object to add new list to */
 	private ListViewer listViewer;
 	
 	/* Specifies type of list to be created */
 	private String listType;
-	
-	/* Specifies list number */
-	private static int listNum = 0;	
 	
 	/**
 	 * Constructor
@@ -36,22 +33,24 @@ public class AddNewList implements MenuItem {
 	 */
 	@Override
 	public String execute() {
-		listNum++;
 		ArrayList<MenuItem> newOptions = new ArrayList<MenuItem>();
-		
 		if (listType.contentEquals("String")) {
-			StringList sL = new StringList(new ArrayList<String>(), listNum, "words", "String");
+			StringList sL = new StringList(new ArrayList<String>(), "words", "String");
 			newOptions.add(new AddToList<String>(sL));
 			newOptions.add(new PrintList<String>(sL));
 			newOptions.add(new ClearList<String>(sL));
 			newOptions.add(new SortList(sL));
 			
 		} else if (listType.contentEquals("Number")) {
-			NumberList nL = new NumberList(new ArrayList<Number>(), listNum, "numbers", "Number");
+			NumberList nL = new NumberList(new ArrayList<Number>(), "numbers", "Number");
 			newOptions.add(new AddToList<Number>(nL));
 			newOptions.add(new PrintList<Number>(nL));
 			newOptions.add(new ClearList<Number>(nL));
 			newOptions.add(new BiggestNumber(nL));
+		}
+		
+		for (int i = 0; i < newOptions.size(); i++) {
+			
 		}
 		
 		listViewer.addMenuOptions(newOptions);
