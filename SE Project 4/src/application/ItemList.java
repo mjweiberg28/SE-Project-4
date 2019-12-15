@@ -5,7 +5,7 @@ import java.util.ArrayList;
 /**
  * Abstract class to define methods for ArrayLists of specified type
  * @author Micah Weiberg
- * @version 12-11-19
+ * @version 12-15-19
  * @param <T>
  * Project 4
  */
@@ -14,8 +14,9 @@ public abstract class ItemList<T> {
 	 * Adds an element to the specified ArrayList
 	 * @param aL ArrayList of Generic type
 	 * @param element String to add to ArrayList
+	 * @throws Exception 
 	 */
-	public abstract void addToList(String element);
+	public abstract void addToList(String element) throws Exception;
 	
 	/**
 	 * Prints the elements within the specified ArrayList

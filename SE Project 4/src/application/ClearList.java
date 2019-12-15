@@ -3,7 +3,7 @@ package application;
 /**
  * Concrete Command: Clear List
  * @author Micah Weiberg
- * @version 12-11-19
+ * @version 12-15-19
  * @param <T> Generic type to be added to list
  * Project 4
  */
@@ -17,7 +17,6 @@ public class ClearList<T> implements MenuItem {
 	 * @param itemList ItemList object
 	 */
 	public ClearList(ItemList<T> itemList) {
-		
 		this.itemList = itemList;
 	}
 	
@@ -27,7 +26,6 @@ public class ClearList<T> implements MenuItem {
 	 */
 	@Override
 	public String execute() {
-
 		itemList.clearList();
 		return "";
 	}
@@ -38,7 +36,6 @@ public class ClearList<T> implements MenuItem {
 	 */
 	@Override
 	public String instructions() {
-
 		return "";
 	}
 
@@ -48,7 +45,6 @@ public class ClearList<T> implements MenuItem {
 	 */
 	@Override
 	public String promptElement() {
-
 		return "";
 	}
 
@@ -63,7 +59,6 @@ public class ClearList<T> implements MenuItem {
 	 * toString to be displayed in list of MenuItems
 	 */
 	public String toString() {
-		
 		return "Clear List ";
 	}
 }

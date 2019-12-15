@@ -3,7 +3,7 @@ package application;
 /**
  * Concrete Command: Biggest Number in List
  * @author Micah Weiberg
- * @version 12-11-19
+ * @version 12-15-19
  * Project 4
  */
 public class BiggestNumber implements MenuItem {
@@ -16,7 +16,6 @@ public class BiggestNumber implements MenuItem {
 	 * @param numberList NumberList object
 	 */
 	public BiggestNumber(NumberList numberList) {
-		
 		this.numberList = numberList;
 	}
 	
@@ -27,11 +26,7 @@ public class BiggestNumber implements MenuItem {
 	@Override
 	public String execute() {
 		// if largest element is the negative of Double's max value, list is empty
-		try {
-			return "Biggest number in List is " + numberList.getLargestNumber();
-		} catch (IndexOutOfBoundsException e) {
-			return "Biggest number does not exist. List is empty.";
-		}
+		return "Biggest number in List is " + numberList.getLargestNumber();
 	}
 
 	/**
@@ -40,7 +35,6 @@ public class BiggestNumber implements MenuItem {
 	 */
 	@Override
 	public String instructions() {
-
 		return "";
 	}
 
@@ -50,7 +44,6 @@ public class BiggestNumber implements MenuItem {
 	 */
 	@Override
 	public String promptElement() {
-
 		return "";
 	}
 
@@ -65,7 +58,6 @@ public class BiggestNumber implements MenuItem {
 	 * toString to be displayed in list of MenuItems
 	 */
 	public String toString() {
-		
 		return "Return biggest number in List ";
 	}
 }

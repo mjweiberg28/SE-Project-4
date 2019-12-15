@@ -5,7 +5,7 @@ import java.util.ArrayList;
 /**
  * Concrete Command: Add New List
  * @author Micah Weiberg
- * @version 12-11-19
+ * @version 12-15-19
  * Project 4
  */
 public class AddNewList implements MenuItem {
@@ -49,12 +49,7 @@ public class AddNewList implements MenuItem {
 			newOptions.add(new BiggestNumber(nL));
 		}
 		
-		for (int i = 0; i < newOptions.size(); i++) {
-			
-		}
-		
 		listViewer.addMenuOptions(newOptions);
-		
 		return "";
 	}
 
@@ -64,7 +59,6 @@ public class AddNewList implements MenuItem {
 	 */
 	@Override
 	public String instructions() {
-
 		return "";
 	}
 
@@ -74,7 +68,6 @@ public class AddNewList implements MenuItem {
 	 */
 	@Override
 	public String promptElement() {
-		
 		return "";
 	}
 
@@ -89,7 +82,6 @@ public class AddNewList implements MenuItem {
 	 * toString to be displayed in list of MenuItems
 	 */
 	public String toString() {
-		
 		return "Add " + listType + " List";
 	}
 }

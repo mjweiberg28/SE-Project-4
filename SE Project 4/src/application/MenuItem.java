@@ -3,13 +3,14 @@ package application;
 /**
  * Command interface that contains the execute and toString methods
  * @author Micah Weiberg
- * @version 12-11-19
+ * @version 12-15-19
  * Project 4
  */
 public interface MenuItem {
 
-	/** Execute the desired action */
-	public String execute();
+	/** Execute the desired action 
+	 * @throws Exception */
+	public String execute() throws Exception;
 	
 	/** Return a String of relevant command instructions */
 	public String instructions();

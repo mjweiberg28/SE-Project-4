@@ -3,7 +3,7 @@ package application;
 /**
  * Concrete Command: Print List
  * @author Micah Weiberg
- * @version 12-11-19
+ * @version 12-15-19
  * @param <T> Generic type to be added to list
  * Project 4
  */
@@ -17,7 +17,6 @@ public class PrintList<T> implements MenuItem {
 	 * @param itemList ItemList object
 	 */
 	public PrintList(ItemList<T> itemList) {
-		
 		this.itemList = itemList;
 	}
 
@@ -27,7 +26,6 @@ public class PrintList<T> implements MenuItem {
 	 */
 	@Override
 	public String execute() {
-		System.out.println("here");
 		return "List is {" + itemList.printList() + "}";
 	}
 
@@ -38,7 +36,6 @@ public class PrintList<T> implements MenuItem {
 	 */
 	@Override
 	public String instructions() {
-
 		return "";
 	}
 
@@ -56,15 +53,13 @@ public class PrintList<T> implements MenuItem {
 	 * Implemented method from MenuItem, do nothing
 	 */
 	@Override
-	public void enterElement(String element) {
-		// do nothing		
+	public void enterElement(String element) {	
 	}
 
 	/**
 	 * toString to be displayed in list of MenuItems
 	 */
 	public String toString() {
-		
 		return "Print List ";
 	}
 }

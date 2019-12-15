@@ -3,7 +3,7 @@ package application;
 /**
  * Concrete Command: Sort List of Strings
  * @author Micah Weiberg
- * @version 12-11-19
+ * @version 12-15-19
  * Project 4
  */
 public class SortList implements MenuItem {
@@ -16,7 +16,6 @@ public class SortList implements MenuItem {
 	 * @param stringList StringList object
 	 */
 	public SortList(StringList stringList) {
-		
 		this.stringList = stringList;
 	}
 	
@@ -26,7 +25,6 @@ public class SortList implements MenuItem {
 	 */
 	@Override
 	public String execute() {
-
 		stringList.sortList();
 		return "List is now sorted";
 	}
@@ -37,7 +35,6 @@ public class SortList implements MenuItem {
 	 */
 	@Override
 	public String instructions() {
-		
 		return "";
 	}
 
@@ -47,7 +44,6 @@ public class SortList implements MenuItem {
 	 */
 	@Override
 	public String promptElement() {
-
 		return "";
 	}
 
@@ -56,14 +52,12 @@ public class SortList implements MenuItem {
 	 */
 	@Override
 	public void enterElement(String element) {
-		// do nothing		
 	}
 
 	/**
 	 * toString to be displayed in list of MenuItems
 	 */
 	public String toString() {
-		
 		return "Sort List ";
 	}
 }

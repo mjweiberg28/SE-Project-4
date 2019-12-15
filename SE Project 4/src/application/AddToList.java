@@ -3,7 +3,7 @@ package application;
 /**
  * Concrete Command: Add to List
  * @author Micah Weiberg
- * @version 12-11-19
+ * @version 12-15-19
  * @param <T> Generic type to be added to list
  * Project 4
  */
@@ -20,22 +20,18 @@ public class AddToList<T> implements MenuItem {
 	 * @param itemList ItemList object
 	 */
 	public AddToList(ItemList<T> itemList) {
-		
 		this.itemList = itemList;
 	}
 	
 	/**
 	 * Execute command to add element to specified ArrayList
 	 * @return empty String
+	 * @throws Exception 
 	 */
 	@Override
-	public String execute() {
-		try {
-			itemList.addToList(element);
-			return "";
-		} catch (Exception e) {
-			return "Invalid Number\n";
-		}
+	public String execute() throws Exception {
+		itemList.addToList(element);
+		return "";
 	}
 
 	/**
@@ -44,7 +40,6 @@ public class AddToList<T> implements MenuItem {
 	 */
 	@Override
 	public String instructions() {
-		
 		return "\nEnter " + itemList.getElementType() + " into List one at a time\n"
 				+ "Enter the word \"quit\" to stop\n\n";
 	}
@@ -55,7 +50,6 @@ public class AddToList<T> implements MenuItem {
 	 */
 	@Override
 	public String promptElement() {
-
 		return "Enter " + itemList.getElementType().substring(0, itemList.getElementType().length() - 1) + 
 				" " + (itemList.getList().size() + 1) + ": ";
 	}
@@ -65,7 +59,6 @@ public class AddToList<T> implements MenuItem {
 	 */
 	@Override
 	public void enterElement(String element) {
-
 		this.element = element;
 	}
 	
@@ -73,7 +66,6 @@ public class AddToList<T> implements MenuItem {
 	 * toString to be displayed in list of MenuItems
 	 */
 	public String toString() {
-		
 		return "Enter " + itemList.getElementType() + " into List ";
 	}
 }

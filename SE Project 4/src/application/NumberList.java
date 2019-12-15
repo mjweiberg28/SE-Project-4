@@ -2,13 +2,11 @@ package application;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeSupport;
 
 /**
  * NumberList class that extends ItemList as Number objects
  * @author Micah Weiberg
- * @version 12-11-19
+ * @version 12-15-19
  * Project 4
  */
 public class NumberList extends ItemList<Number> {
@@ -21,9 +19,6 @@ public class NumberList extends ItemList<Number> {
 	
 	/** Specifies the type of list (String, Number, etc) being executed */
 	private String listType;
-	
-	/** PropertyChangeSupport for firing a request to change */
-	private PropertyChangeSupport pcs = new PropertyChangeSupport(this);
 	
 	/**
 	 * Constructor
@@ -40,13 +35,13 @@ public class NumberList extends ItemList<Number> {
 	/**
 	 * Adds an element to the specified ArrayList
 	 * @param element Element to add to ArrayList
+	 * @throws NumberFormatException if it is not a valid Number
 	 */
 	@Override
-	public void addToList(String element) {
-		if (element == null) {
-			return;
+	public void addToList(String element) throws Exception {
+		if (element == null || element.isEmpty()) {
+			throw new Exception("Invalid Number");
 		}
-		
 		// try parsing String as Integer and add to list,
 		// if this fails, parse as Double and add to list
 		try {
@@ -54,26 +49,13 @@ public class NumberList extends ItemList<Number> {
 			aL.add(parsedElement);
 			
 		} catch (NumberFormatException e) {
-			Double parsedElement = Double.parseDouble(element);
-			aL.add(parsedElement);
+			try {
+				Double parsedElement = Double.parseDouble(element);
+				aL.add(parsedElement);
+			} catch (NumberFormatException e1) {
+				throw new NumberFormatException("Invalid Number");
+			}
 		}
-	}
-	
-	/**
-	 * Method for HW 32 to add an element to the NumberList
-	 * End result is the same as addToList(String), except that the current
-	 * project is set up to work with the implemented method addToList
-	 * that takes in a String instead of a Number and parses it to a
-	 * Number before adding it to the list
-	 * @param element Number to add to list
-	 */
-	public void addNumber(Number element) {
-		if (element == null) {
-			return;
-		}
-		ArrayList<Number> oldValue = aL;
-		aL.add(element);
-		this.pcs.firePropertyChange("addElement", oldValue, aL);
 	}
 
 	/**
@@ -82,7 +64,6 @@ public class NumberList extends ItemList<Number> {
 	 */
 	@Override
 	public String printList() {
-
 		String listString = ""; // initialize variable
 
 		for (int i = 0; i < aL.size(); i++) {
@@ -95,7 +76,6 @@ public class NumberList extends ItemList<Number> {
 			listString = listString.substring(0, listString.length() - 2);
 		}
 		
-		this.pcs.firePropertyChange("printList", null, null);
 		return listString;
 	}
 
@@ -104,16 +84,14 @@ public class NumberList extends ItemList<Number> {
 	 */
 	@Override
 	public void clearList() {
-		ArrayList<Number> oldValue = aL;
 		aL.clear();
-		this.pcs.firePropertyChange("clearList", oldValue, aL);
 	}
 	
 	/**
 	 * Finds largest element within the specified ArrayList
 	 * @return Largest Number within ArrayList
 	 */
-	public Number getLargestNumber() {
+	public Number getLargestNumber() throws IndexOutOfBoundsException {
 		try {		
 			// initialize variable to first element of list
 			Number largest = aL.get(0);		
@@ -129,28 +107,11 @@ public class NumberList extends ItemList<Number> {
 			    	largest = aL.get(i);
 			    }
 			}
-			this.pcs.firePropertyChange("largestNum", null, null);
 			return largest;
 			
 		} catch (IndexOutOfBoundsException e) {
 			throw new IndexOutOfBoundsException("Biggest number does not exist. List is empty.");
 		}
-	}
-	
-	/**
-	 * Adds PropertyChangeListener to NumberList objects
-	 * @param listener object listening for changes
-	 */
-	public void addPropertyChangeListener(PropertyChangeListener listener) {
-		this.pcs.addPropertyChangeListener(listener);
-	}
-	
-	/**
-	 * Removes PropertyChangeListener
-	 * @param listener object listening for changes
-	 */
-	public void removePropertyChangeListener(PropertyChangeListener listener) {
-		this.pcs.removePropertyChangeListener(listener);
 	}
 
 	/**

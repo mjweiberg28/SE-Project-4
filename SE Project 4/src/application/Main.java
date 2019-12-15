@@ -1,7 +1,5 @@
 package application;
 
-import java.util.ArrayList;
-
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.stage.Stage;
@@ -16,34 +14,34 @@ import javafx.scene.text.Font;
 /**
  * Main class, acting as the driver for the GUI and project as a whole
  * @author Micah Weiberg
- * @version 12-11-19
- *
+ * @version 12-15-19
+ * Project 4
  */
 public class Main extends Application {
 	
-	private StringList stringList;
-	private NumberList numberList;
+	/** Information label giving instructions to the user */
 	private Label info;
+	
+	/** TextField for naming the new List */
 	private TextField tf;
+	
+	/** Button for adding a new StringList */
 	private Button addSL;
+	
+	/** Button for adding a new NumberList */
 	private Button addNL;
+	
+	/** ListViewer object for new List window */
+	private ListViewer lv;
 	
 	@Override
 	public void start(Stage primaryStage) {
-		stringList = new StringList(new ArrayList<String>(), "words", "String");
-		numberList = new NumberList(new ArrayList<Number>(), "numbers", "Number");
-		ListViewer lvString = new ListViewer();
-		ListViewer lvNumber = new ListViewer();
-		
-		stringList.addPropertyChangeListener(lvString);
-		numberList.addPropertyChangeListener(lvNumber);
-		
 		try {
 			GridPane root = new GridPane();
 			root.setPadding(new Insets(5, 5, 5, 5));
 			Scene scene = new Scene(root, 400, 400);
-			
 			primaryStage.setTitle("String and Number List Menu");
+			
 			info = new Label("Click the respective buttons to generate a new String "
 					+ "or Number List. Creating a new list will generate a new window "
 					+ "revealing their corresponding actions, allowing one to edit the "
@@ -54,44 +52,18 @@ public class Main extends Application {
 			root.add(info, 0, 0);
 			
 			tf = new TextField();
-			
 			tf.setDisable(false);
 			root.add(tf, 0, 1);
 			
 			addSL = new Button("Add String List");
 			addSL.setOnAction(e -> {
-				try {
-//					if (tf.getText().isEmpty()) {
-//						throw new Exception("New list must have a name");
-//					}
-					lvString.setTitle(tf.getText());
-					AddNewList yooo = new AddNewList(lvString, "String");
-					yooo.execute();
-					lvString.start(new Stage());
-				} catch (Exception e1) {
-					Alert alert = new Alert(Alert.AlertType.ERROR);
-					alert.setTitle("Error");
-					alert.setContentText(e1.getMessage());
-					alert.showAndWait();
-				}
+				newWindow("String");
 			});
 			root.add(addSL, 0, 2);
+			
 			addNL = new Button("Add Number List");
 			addNL.setOnMouseClicked(e -> {
-				try {
-//					if (tf.getText().isEmpty()) {
-//						throw new Exception("New list must have a name");
-//					}
-					lvNumber.setTitle(tf.getText());
-					AddNewList yooo = new AddNewList(lvNumber, "Number");
-					yooo.execute();
-					lvNumber.start(new Stage());
-				} catch (Exception e1) {
-					Alert alert = new Alert(Alert.AlertType.ERROR);
-					alert.setTitle("Error");
-					alert.setContentText(e1.getMessage());
-					alert.showAndWait();
-				}
+				newWindow("Number");
 			});
 			root.add(addNL, 0, 3);
 			
@@ -100,7 +72,32 @@ public class Main extends Application {
 			primaryStage.show();
 			
 		} catch(Exception e) {
-			e.printStackTrace();
+			Alert alert = new Alert(Alert.AlertType.ERROR);
+			alert.setTitle("Error");
+			alert.setContentText(e.getMessage());
+			alert.showAndWait();
+		}
+	}
+
+	/**
+	 * Creates a new Stage window for the specified list type
+	 * @param listType String or Number
+	 */
+	private void newWindow(String listType) {
+		try {
+			if (tf.getText().isEmpty()) {
+				throw new Exception("New list must have a name");
+			}
+			lv = new ListViewer(tf.getText()); // create new ListViewer
+			tf.clear();
+			AddNewList newList = new AddNewList(lv, listType);
+			newList.execute();
+			lv.start(new Stage());
+		} catch (Exception e1) {
+			Alert alert = new Alert(Alert.AlertType.ERROR);
+			alert.setTitle("Error");
+			alert.setContentText(e1.getMessage());
+			alert.showAndWait();
 		}
 	}
 	
